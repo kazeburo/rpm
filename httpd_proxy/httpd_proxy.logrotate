@@ -1,0 +1,12 @@
+/var/log/httpd_proxy/*log {
+    daily
+    compress
+    rotate 35
+    missingok
+    notifempty
+    sharedscripts
+    postrotate
+        /sbin/service httpd_proxy reload > /dev/null 2>/dev/null || true
+    endscript
+}
+

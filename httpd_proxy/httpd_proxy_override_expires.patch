@@ -1,0 +1,15 @@
+--- httpd-2.2.17.orig/modules/metadata/mod_expires.c    2008-11-12 04:59:22.000000000 +0900
++++ httpd-2.2.17/modules/metadata/mod_expires.c 2011-01-20 11:47:03.000000000 +0900
+@@ -472,6 +472,11 @@
+         expiry = apr_table_get(r->headers_out, "Expires");
+         t = r->headers_out;
+     }
++    if ( apr_table_get(r->subprocess_env, "override_expires") ) {
++        expiry = NULL;
++        apr_table_unset(t,"Expires");
++        apr_table_unset(t,"Cache-Control");
++    }
+     if (expiry == NULL) {
+         /*
+          * No expiration has been set, so we can apply any managed by
+
